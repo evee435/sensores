@@ -3,6 +3,7 @@ import sqlite3
 
 app = Flask(__name__)
 
+
 def dict_factory(cursor, row):
  """Arma un diccionario con los valores de la fila."""
  fields = [column[0] for column in cursor.description]
@@ -28,14 +29,17 @@ def hello_world():
 
 @app.route("/api/sensor", methods = ["POST"])
 def sensor():
-    abrirConexion()
+    db = abrirConexion()
+    cursor=db.cursor()
     nombre = request.json  ['nombre']
     valor = request.json  ['valor']
     print(f"nombre :{nombre} , valor : {valor}") #se ve en la terminal
-
+    cursor.execute("INSERT INTO valores (nombre, valor) VALUES (?, ?)", (nombre, valor))
+    db.commit()
     cerrarConexion()
     res = {"resultado": "ok"} #return jsonify ({"resultado":"ok"})
     return jsonify(res)  #se ve en postman
+
 #cuando el objeto es muy grande conviene usar una intermedia,
 #jsonify convierte diccionarios y lista(listas simples) a JSON valido
 #lo corremos en postman ya que en el navegador no se puede utilizar el POST
