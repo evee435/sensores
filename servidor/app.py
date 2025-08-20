@@ -1,4 +1,4 @@
-from flask import Flask, g, request
+from flask import Flask, g, request, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -34,7 +34,10 @@ def sensor():
     print(f"nombre :{nombre} , valor : {valor}") #se ve en la terminal
 
     cerrarConexion()
-    return "ok" #se ve en postman
+    res = {"resultado": "ok"} #return jsonify ({"resultado":"ok"})
+    return jsonify(res)  #se ve en postman
+#cuando el objeto es muy grande conviene usar una intermedia,
+#jsonify convierte diccionarios y lista(listas simples) a JSON valido
 #lo corremos en postman ya que en el navegador no se puede utilizar el POST
 
 #agregue codigo de conexion a la basa de datos
