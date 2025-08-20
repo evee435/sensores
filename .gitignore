@@ -1,4 +1,5 @@
 .venv/
+valores.sqlite
 
 *.pyc
 __pycache__/
